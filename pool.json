@@ -11,19 +11,32 @@
   },
   "reserves": {
     "txbt4": {
-      "confirmed": 1000015800,
-      "pending": 5000,
-      "coins": 7,
+      "confirmed": 26000,
+      "pending": 999994800,
+      "coins": 8,
       "name": "Bitcoin BLAKE2b testnet4"
     },
     "tbtc4": {
       "confirmed": 0,
-      "pending": 999978000,
-      "coins": 4,
+      "pending": 999983000,
+      "coins": 5,
       "name": "Bitcoin testnet4"
     }
   },
   "swaps": [
+    {
+      "key": "tbtc4:1d43c9d1f7bc8631efc781975fd69359e87c99813e9a27be6b32b8104dceba74:0",
+      "from": "tbtc4",
+      "to": "txbt4",
+      "txid": "1d43c9d1f7bc8631efc781975fd69359e87c99813e9a27be6b32b8104dceba74",
+      "vout": 0,
+      "value": 5000,
+      "sender": "tb1pg5v75ugwraeptal7338vanmw5qjwpr3qk06stagxsu93eurw60rss8p307",
+      "pubkey": "4519ea710e1f7215f7fe8c4ececf6ea024e08e20b3f505f506870b1cf06ed3c7",
+      "amount": 4000,
+      "payoutTxid": "a70a3bbf7c81b874a888100a40532ccee9ce5bb71b1031ce8789762a4ff5051b",
+      "at": "2026-10-19T15:49:13.479Z"
+    },
     {
       "key": "txbt4:bbff3cd9ae75f1dc09925981c79cd05632a245d7bd2cc4e03e4060e5c8020716:0",
       "from": "txbt4",
@@ -160,5 +173,5 @@
     "tbtc4:bbff3cd9ae75f1dc09925981c79cd05632a245d7bd2cc4e03e4060e5c8020716:0"
   ],
   "reserveTopUps": 2,
-  "at": "2026-10-19T15:44:45.447Z"
+  "at": "2026-10-19T15:49:15.436Z"
 }
