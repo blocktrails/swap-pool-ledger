@@ -12,18 +12,31 @@
   "reserves": {
     "txbt4": {
       "confirmed": 1000002800,
-      "pending": 0,
-      "coins": 2,
+      "pending": 3000,
+      "coins": 3,
       "name": "Bitcoin BLAKE2b testnet4"
     },
     "tbtc4": {
       "confirmed": 0,
-      "pending": 999991000,
+      "pending": 999988000,
       "coins": 3,
       "name": "Bitcoin testnet4"
     }
   },
   "swaps": [
+    {
+      "key": "txbt4:420416c3a07db67964ddb3bf59cfe5f4196b00874420c7957a0266b6ef961988:0",
+      "from": "txbt4",
+      "to": "tbtc4",
+      "txid": "420416c3a07db67964ddb3bf59cfe5f4196b00874420c7957a0266b6ef961988",
+      "vout": 0,
+      "value": 3000,
+      "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+      "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+      "amount": 2000,
+      "payoutTxid": "03ecdd7974f377fbf17745f242a04a29a45fef93ce231c173ce77ff34057490b",
+      "at": "2026-10-19T13:47:41.983Z"
+    },
     {
       "key": "tbtc4:05c278c9192acf9fa9f7443afa4402ee08ae9a638696cfca24efdcbb44ccffde:0",
       "from": "tbtc4",
@@ -93,5 +106,5 @@
   "refused": [],
   "replayed": [],
   "reserveTopUps": 2,
-  "at": "2026-10-19T13:36:30.036Z"
+  "at": "2026-10-19T13:49:37.366Z"
 }
