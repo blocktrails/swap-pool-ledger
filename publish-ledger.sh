@@ -23,4 +23,6 @@ git commit -q -m "ledger: $n swaps paid"
 # the state event then names a commit whose trail file lists the mark
 git mark
 git add blocktrails.json && git commit -q -m "trail: mark $(python3 -c "import json;print(len(json.load(open('blocktrails.json'))['states']))")"
+# push before announcing: the state names this commit, and a mirror fetches it from the remote
+if git remote get-url origin >/dev/null 2>&1; then git push -q origin HEAD; fi
 git mark announce
