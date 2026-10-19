@@ -19,4 +19,8 @@ git add ledger.json pool.json README.md publish-ledger.sh
 if git diff --cached --quiet; then echo "ledger unchanged; nothing to mark"; exit 0; fi
 n=$(python3 -c "import json;print(len(json.load(open('ledger.json'))['paid']))")
 git commit -q -m "ledger: $n swaps paid"
-git mark --announce
+# mark the ledger commit, commit the trail file that records it, then announce:
+# the state event then names a commit whose trail file lists the mark
+git mark
+git add blocktrails.json && git commit -q -m "trail: mark $(python3 -c "import json;print(len(json.load(open('blocktrails.json'))['states']))")"
+git mark announce
