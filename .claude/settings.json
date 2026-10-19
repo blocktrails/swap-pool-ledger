@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git mark *)",
+      "Bash(npx fund-agent@latest *)",
+      "Bash(npm create agent@latest *)"
+    ]
+  }
+}
