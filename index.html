@@ -36,25 +36,43 @@ footer{margin-top:2.5rem;color:#999;font-size:.85rem;border-top:1px solid #ddd;p
 .go{width:100%;font:inherit;font-size:1.15rem;font-weight:600;padding:16px;border:0;border-radius:16px;background:#f7931a;color:#fff;cursor:pointer;margin-top:6px}.go:disabled{background:#e9e7e1;color:#999;cursor:default}
 .cmd{display:none;margin-top:10px}.cmd.on{display:block}.cmd p{font-size:.85rem;color:#666;margin:6px 8px}
 @media (max-width:600px){body{padding:1rem}}
-</style></head><body><div class="c">
+
+.wal{max-width:440px;margin:0 auto 14px;background:#fff;border:1px solid #e6e4df;border-radius:20px;padding:14px 16px;font-family:-apple-system,'Segoe UI',Inter,Helvetica,Arial,sans-serif;font-size:.9rem}
+.wal .addr{font-family:'SFMono-Regular',Consolas,monospace;font-size:.78rem;word-break:break-all;color:#555;margin:4px 0}
+.wal .bals{display:flex;gap:16px;margin-top:6px;color:#777}.wal .bals b{color:#2c2c2c;font-variant-numeric:tabular-nums}
+.wal button{font:inherit;font-size:.85rem;border:1px solid #e6e4df;background:#f5f4f0;border-radius:999px;padding:4px 12px;cursor:pointer;color:#2c2c2c}
+.stat{margin-top:10px;font-size:.88rem;color:#555;padding:0 8px;min-height:1.3em}.stat a{color:#1a5276}.stat.err{color:#b03a2e}
+#xlogin-btn,.xlogin-btn{bottom:16px!important;right:16px!important}
+</style>
+<script type="importmap">{"imports":{"@noble/curves/secp256k1":"https://esm.sh/@noble/curves@1.4.0/secp256k1","@noble/hashes/sha256":"https://esm.sh/@noble/hashes@1.4.0/sha256","@noble/hashes/utils":"https://esm.sh/@noble/hashes@1.4.0/utils"}}</script>
+<script src="https://unpkg.com/xlogin@0.0.16/xlogin.js"></script>
+</head><body><div class="c">
 <h1>swap pool</h1><div class="sub" id="sub">txbt4 ↔ tbtc4 · one to one</div>
 <div class="tabs"><button class="on" data-tab="swap">Swap</button><button data-tab="pool">Pool</button></div>
 
 <section class="panel on" id="tab-swap">
+<div class="wal" id="wal">
+  <div id="walOut"><b>Your key.</b> Log in at the bottom right with a key you hold: paste a 64-character private key, or take a guest key the page makes for you. The key spells one address on both chains; send test coins to it and swap from here. An extension can log you in but cannot sign a spend, so a paste or a guest key is what swaps.</div>
+  <div id="walIn" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span>Your address, on both chains</span><button id="copyAddr">copy</button></div>
+    <div class="addr" id="addr"></div>
+    <div class="bals"><span>txbt4 <b id="balA">…</b></span><span>tbtc4 <b id="balB">…</b></span><span id="balNote" class="muted"></span></div>
+  </div>
+</div>
 <div class="card">
 <h3>Swap</h3>
-<div class="tok"><div class="lab">You pay</div><div class="row"><input id="amt" type="number" inputmode="numeric" min="0" placeholder="amount" autocomplete="off"><span class="pill"><span class="dot txbt4" id="dotFrom"></span><span id="from">txbt4</span></span></div><div class="bal"><span>sats, from your agent's key</span><span id="minmax"></span></div></div>
+<div class="tok"><div class="lab">You pay</div><div class="row"><input id="amt" type="number" inputmode="numeric" min="0" placeholder="amount" autocomplete="off"><span class="pill"><span class="dot txbt4" id="dotFrom"></span><span id="from">txbt4</span></span></div><div class="bal"><span id="have">sats, from your key</span><span id="minmax"></span></div></div>
 <div class="flip"><button id="flip" title="switch direction" aria-label="switch direction">⇅</button></div>
 <div class="tok"><div class="lab">You receive</div><div class="row"><input id="out" type="text" value="0" readonly><span class="pill"><span class="dot tbtc4" id="dotTo"></span><span id="to">tbtc4</span></span></div><div class="bal"><span id="sum"></span><span>pool has <span id="avail">…</span></span></div></div>
-<div class="det"><div><span>Rate</span><span>1 sat = 1 sat</span></div><div><span>Pool fee</span><span id="feeLine">…</span></div><div><span>Network fee</span><span>1,000 sats, paid by your spend</span></div><div><span>Arrives</span><span>within a block</span></div></div>
+<div class="det"><div><span>Rate</span><span>1 sat = 1 sat</span></div><div><span>Pool fee</span><span id="feeLine">…</span></div><div><span>Network fee</span><span id="netFee">a few hundred sats, from your coins</span></div><div><span>Arrives</span><span>in seconds, at your own address</span></div></div>
 <button class="go" id="go" disabled>Enter an amount</button>
-<div class="cmd" id="cmd"><p>Your key is in your repo, not in this page, so the spend is one command there:</p><pre id="cmdText"></pre><p>The pool sees it on its next pass and pays the other side.</p></div>
+<div class="stat" id="stat"></div>
 </div>
 </section>
 
 <section class="panel" id="tab-pool">
-<div class="box"><div class="l">How it works</div><p>Send sats from your agent's key to the pool's address on the chain you have coins on. The same amount, less the fee, arrives at your own address on the other chain, because your address is the same string there. No account, no message.</p>
-<pre id="howCmds"></pre></div>
+<div class="box"><div class="l">How it works</div><p>The pool holds one key, so one address, on both chains. Send to it on the chain you have coins on and the same amount, less the fee, arrives at your own address on the other chain, because your address is the same string there. Each swap is announced on Nostr so the pool pays within seconds, and every swap is recorded in a ledger marked on txbt4.</p>
+<p>From a terminal, the same swap is <code id="howCmd"></code>, with <a href="https://github.com/blocktrails/fund-agent">fund-agent</a>.</p></div>
 <h2>Reserves</h2><table><tr><th>chain</th><th class="num">confirmed</th><th class="num">pending</th><th>address</th></tr><tbody id="res"></tbody></table>
 <h2>Swaps <span class="muted" id="nSwaps"></span></h2><table><tr><th>when (UTC)</th><th>direction</th><th class="num">in</th><th class="num">out</th><th>who</th><th>tx</th></tr><tbody id="rows"></tbody></table>
 <p class="muted" id="replayed"></p>
@@ -62,49 +80,161 @@ footer{margin-top:2.5rem;color:#999;font-size:.85rem;border-top:1px solid #ddd;p
 
 <footer id="foot">Loading pool.json…</footer>
 </div>
-<script>
-(function(){
-  var EXPLORER={txbt4:'https://mempool.guide/testnet4',tbtc4:'https://mempool.space/testnet4',xbt:'https://mempool.guide',btc:'https://mempool.space'};
-  var NAME={txbt4:'Bitcoin BLAKE2b testnet4',tbtc4:'Bitcoin testnet4',xbt:'Bitcoin BLAKE2b',btc:'Bitcoin'};
-  var $=function(id){return document.getElementById(id)};
-  function fmt(n){return Number(n||0).toLocaleString()}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-  function tx(c,id){return (EXPLORER[c]||'')+'/tx/'+id}
-  function addr(c,a){return (EXPLORER[c]||'')+'/address/'+a}
-  var d=null, chains=['txbt4','tbtc4'], from='txbt4', to='tbtc4', fee=1000, max=1000000, avail={};
-  function render(){
-    $('from').textContent=from; $('to').textContent=to; $('dotFrom').className='dot '+from; $('dotTo').className='dot '+to; $('avail').textContent=fmt(avail[to]||0);
-    var amt=Math.floor(Number($('amt').value)||0), out=Math.max(0, amt-fee), go=$('go'), ok=amt>fee+546 && amt<=max && out<=(avail[to]||0);
-    $('out').value=fmt(out);
-    $('sum').textContent=amt?fmt(amt)+' − '+fmt(fee)+' fee = '+fmt(out)+', at your own address':'amount minus the '+fmt(fee)+' sat fee';
-    go.disabled=!ok; go.textContent=!amt?'Enter an amount':amt>max?'Over the cap of '+fmt(max)+' sats':amt<=fee+546?'Too small to cover the fee':out>(avail[to]||0)?'Pool has only '+fmt(avail[to]||0)+' on '+to:'Swap';
-    $('cmdText').textContent='npx fund-agent@latest swap '+amt+' --to '+to+(from!==chains[0]?' --chain '+from:'')+' --pool '+(d?d.address:'');
-    if(!ok) $('cmd').classList.remove('on');
+<script type="module">
+import { getTaprootAddress, getXOnlyPubKey, decodeAddress, createTransaction, bytesToHex, hexToBytes } from './lib/bitcoin.js';
+import { schnorr } from '@noble/curves/secp256k1';
+import { sha256 } from '@noble/hashes/sha256';
+
+// ---- chains: where to read coins and send spends. txbt4's public explorer answers with two CORS
+// headers, which browsers refuse; ?api=<base> (kept in localStorage) points this page at one that works.
+const API = { txbt4: 'https://mempool.guide/testnet4/api', tbtc4: 'https://mempool.space/testnet4/api' };
+try { const q = new URLSearchParams(location.search).get('api'); if (q === 'reset') localStorage.removeItem('pool_api_txbt4'); else if (q) localStorage.setItem('pool_api_txbt4', q.replace(/\/+$/, '')); const st = localStorage.getItem('pool_api_txbt4'); if (st) API.txbt4 = st; } catch {}
+const EXPLORER = { txbt4: 'https://mempool.guide/testnet4', tbtc4: 'https://mempool.space/testnet4' };
+const NAME = { txbt4: 'Bitcoin BLAKE2b testnet4', tbtc4: 'Bitcoin testnet4' };
+const UNIFIED = { txbt4: true, tbtc4: false };          // the BLAKE2b chain signs with the unified sighash; tbtc4 is plain BIP341
+const FEE_RATE = { txbt4: 2, tbtc4: 3 };                 // sat/vB for the deposit
+const RELAYS = ['wss://nostr.oxtr.dev', 'wss://relay.primal.net', 'wss://relay.snort.social'];
+const KIND_SWAP = 30619;
+
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => Number(n || 0).toLocaleString();
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const txUrl = (c, id) => EXPLORER[c] + '/tx/' + id;
+
+let d = null, chains = ['txbt4', 'tbtc4'], from = 'txbt4', to = 'tbtc4', fee = 1000, max = 1000000, avail = {};
+let key = null, address = null, bal = {}, utxos = {}, busy = false;
+
+// ---- the key: whatever xlogin logged in with, if it is a key this page can sign with
+function currentKey() {
+  try { const a = JSON.parse(localStorage.getItem('currentAccount')); return a && /^[0-9a-f]{64}$/.test(a.privkey || '') ? a.privkey : null; } catch { return null; }
+}
+async function onKeyChange() {
+  const k = currentKey();
+  if (k === key) return;
+  key = k;
+  if (!key) { address = null; $('walIn').style.display = 'none'; $('walOut').style.display = ''; if (window.xlogin && window.xlogin.id) $('walOut').innerHTML = '<b>Logged in with an extension.</b> It can sign Nostr events but not a spend, so this page cannot swap with it. Log out and log in with a pasted key or a guest key.'; render(); return; }
+  address = getTaprootAddress(hexToBytes(key), 'tb');
+  $('addr').textContent = address; $('walOut').style.display = 'none'; $('walIn').style.display = '';
+  await refreshBalances();
+}
+async function refreshBalances() {
+  if (!address) return;
+  const notes = [];
+  for (const c of chains) {
+    try { const r = await fetch(`${API[c]}/address/${address}/utxo`); if (!r.ok) throw new Error(r.status); utxos[c] = await r.json(); bal[c] = utxos[c].reduce((a, u) => a + u.value, 0); }
+    catch (e) { utxos[c] = null; bal[c] = null; notes.push(c === 'txbt4' && API.txbt4.includes('mempool.guide') ? 'txbt4 unreadable from a browser (the explorer\'s CORS); add ?api=<esplora base> for a txbt4 API that allows it' : `${c}: ${e.message}`); }
   }
-  function fill(){
-    chains=d.chains; from=chains[0]; to=chains[1]; fee=Number(d.limits.fee); max=Number(d.limits.max);
-    chains.forEach(function(c){var r=d.reserves[c]||{}; avail[c]=(r.confirmed||0)+(r.pending||0)});
-    $('sub').textContent=chains[0]+' ↔ '+chains[1]+' · one to one · fee '+fmt(fee)+' sats · up to '+fmt(max)+' sats a swap, '+d.limits.perDay+' a day per key';
-    $('amt').placeholder='at least '+fmt(fee+547); $('minmax').textContent='min '+fmt(fee+547)+' · cap '+fmt(max); $('feeLine').textContent=fmt(fee)+' sats';
-    $('howCmds').textContent='npx fund-agent@latest swap 8000 --to '+chains[1]+' --pool '+d.address+'\nnpx fund-agent@latest swap 4000 --to '+chains[0]+' --chain '+chains[1]+' --pool '+d.address;
-    $('res').innerHTML=chains.map(function(c){var r=d.reserves[c]||{}; return '<tr><td>'+esc(c)+'<span class="muted"> '+esc(r.name||NAME[c]||'')+'</span></td><td class="num">'+(r.error?esc(r.error):fmt(r.confirmed))+'</td><td class="num muted">'+(r.error?'':fmt(r.pending))+'</td><td class="mono"><a href="'+esc(addr(c,d.address))+'">'+esc(d.address.slice(0,14))+'…</a></td></tr>'}).join('');
-    var rows=(d.swaps||[]).map(function(s){return '<tr><td>'+esc((s.at||'').slice(0,16).replace('T',' '))+'</td><td>'+esc(s.from)+' → '+esc(s.to)+'</td><td class="num">'+fmt(s.value)+'</td><td class="num">'+fmt(s.amount)+'</td><td class="mono">'+esc((s.sender||'').slice(0,12))+'…</td><td class="mono"><a href="'+esc(tx(s.from,s.txid))+'">in</a> · <a href="'+esc(tx(s.to,s.payoutTxid))+'">out</a></td></tr>'}).join('');
-    var ref=(d.refused||[]).map(function(r){return '<tr class="muted"><td>'+esc((r.at||'').slice(0,16).replace('T',' '))+'</td><td>'+esc(r.chain)+'</td><td class="num">'+fmt(r.value)+'</td><td colspan="3">'+esc(r.reason)+'</td></tr>'}).join('');
-    $('rows').innerHTML=(rows||'<tr><td colspan="6" class="muted">none yet</td></tr>')+ref; $('nSwaps').textContent='('+(d.swaps||[]).length+')';
-    var rp=(d.replayed||[]).length; $('replayed').textContent=rp?rp+' deposit'+(rp===1?'':'s')+' seen on both chains, paid once.':'';
-    $('foot').innerHTML=esc(d.reserveTopUps)+' reserve top-up'+(d.reserveTopUps===1?'':'s')+' · as of '+esc((d.at||'').slice(0,16).replace('T',' '))+' UTC, the last time the ledger was published and marked · <a href="pool.json">pool.json</a> · <a href="ledger.json">ledger.json</a> · <a href="blocktrails.json">trail</a> · <a href="https://github.com/blocktrails/swap-pool-ledger">source</a>';
-    render();
-  }
-  $('amt').addEventListener('input', render);
-  $('flip').addEventListener('click', function(){ var t=from; from=to; to=t; render(); });
-  $('go').addEventListener('click', function(){ $('cmd').classList.add('on'); });
-  document.querySelectorAll('.tabs button').forEach(function(b){ b.addEventListener('click', function(){
-    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on', x===b)});
-    document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on', p.id==='tab-'+b.dataset.tab)});
-    try{ localStorage.setItem('pool-tab', b.dataset.tab) }catch(e){}
-  })});
-  try{ var t=localStorage.getItem('pool-tab'); if(t){ var b=document.querySelector('.tabs button[data-tab="'+t+'"]'); if(b) b.click(); } }catch(e){}
-  fetch('pool.json',{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){ d=j; fill(); }).catch(function(e){ $('foot').textContent='Could not load pool.json: '+e.message; });
+  $('balA').textContent = bal.txbt4 == null ? '?' : fmt(bal.txbt4); $('balB').textContent = bal.tbtc4 == null ? '?' : fmt(bal.tbtc4);
+  $('balNote').textContent = notes.join(' · ');
   render();
-})();
+}
+document.addEventListener('xlogin', () => setTimeout(onKeyChange, 50));
+document.addEventListener('xlogout', () => setTimeout(onKeyChange, 50));
+setInterval(onKeyChange, 1500);
+$('copyAddr').addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText(address); $('copyAddr').textContent = 'copied'; setTimeout(() => { $('copyAddr').textContent = 'copy'; }, 1200); });
+
+// ---- the swap card
+function render() {
+  $('from').textContent = from; $('to').textContent = to; $('dotFrom').className = 'dot ' + from; $('dotTo').className = 'dot ' + to; $('avail').textContent = fmt(avail[to] || 0);
+  $('have').textContent = key ? (bal[from] == null ? `your coins on ${from}: unknown` : `you have ${fmt(bal[from])} on ${from}`) : 'sats, from your key';
+  const amt = Math.floor(Number($('amt').value) || 0), out = Math.max(0, amt - fee), go = $('go');
+  $('out').value = fmt(out);
+  $('sum').textContent = amt ? `${fmt(amt)} − ${fmt(fee)} fee = ${fmt(out)}, at your own address` : `amount minus the ${fmt(fee)} sat fee`;
+  let why = null;
+  if (!key) why = 'Log in with a key to swap';
+  else if (!amt) why = 'Enter an amount';
+  else if (amt > max) why = `Over the cap of ${fmt(max)} sats`;
+  else if (amt <= fee + 546) why = 'Too small to cover the fee';
+  else if (out > (avail[to] || 0)) why = `Pool has only ${fmt(avail[to] || 0)} on ${to}`;
+  else if (bal[from] == null) why = `Cannot read your coins on ${from}`;
+  else if (bal[from] < amt + 500) why = `You have ${fmt(bal[from])} on ${from}`;
+  else if (busy) why = 'Swapping…';
+  go.disabled = !!why; go.textContent = why || 'Swap';
+}
+$('amt').addEventListener('input', render);
+$('flip').addEventListener('click', () => { const t = from; from = to; to = t; render(); });
+
+// ---- the swap itself: sign the deposit here, broadcast it, announce it, wait for the pool's answer
+const status = (html, err) => { $('stat').innerHTML = html; $('stat').className = 'stat' + (err ? ' err' : ''); };
+function signEvent(sk, kind, tags, content = '') {
+  const pubkey = bytesToHex(schnorr.getPublicKey(sk));
+  const created_at = Math.floor(Date.now() / 1000);
+  const id = bytesToHex(sha256(new TextEncoder().encode(JSON.stringify([0, pubkey, created_at, kind, tags, content]))));
+  return { id, pubkey, created_at, kind, tags, content, sig: bytesToHex(schnorr.sign(id, sk)) };
+}
+function publish(ev) {
+  return Promise.all(RELAYS.map((relay) => new Promise((resolve) => {
+    let done = false; const fin = (ok) => { if (done) return; done = true; clearTimeout(t); try { ws.close(); } catch {} resolve(ok); };
+    const t = setTimeout(() => fin(false), 8000);
+    let ws; try { ws = new WebSocket(relay); } catch { return fin(false); }
+    ws.onopen = () => ws.send(JSON.stringify(['EVENT', ev]));
+    ws.onmessage = (m) => { try { const x = JSON.parse(m.data); if (x[0] === 'OK' && x[1] === ev.id) fin(!!x[2]); } catch {} };
+    ws.onerror = () => fin(false); ws.onclose = () => fin(false);
+  })));
+}
+// the pool's answer: same kind, same d, from the pool's key
+function waitForReply(dTag, poolXonly, ms = 90000) {
+  return new Promise((resolve) => {
+    let done = false; const socks = [];
+    const fin = (v) => { if (done) return; done = true; clearTimeout(t); for (const s of socks) { try { s.close(); } catch {} } resolve(v); };
+    const t = setTimeout(() => fin(null), ms);
+    for (const relay of RELAYS) {
+      let ws; try { ws = new WebSocket(relay); } catch { continue; }
+      socks.push(ws);
+      ws.onopen = () => ws.send(JSON.stringify(['REQ', 'r', { kinds: [KIND_SWAP], authors: [poolXonly], '#d': [dTag] }]));
+      ws.onmessage = (m) => { try { const x = JSON.parse(m.data); if (x[0] === 'EVENT' && x[2] && x[2].pubkey === poolXonly) { const paid = (x[2].tags.find((y) => y[0] === 'paid') || [])[1]; const refused = (x[2].tags.find((y) => y[0] === 'refused') || [])[1]; if (paid || refused) fin({ paid, refused }); } } catch {} };
+    }
+  });
+}
+$('go').addEventListener('click', async () => {
+  if (busy || !key) return;
+  const amt = Math.floor(Number($('amt').value) || 0);
+  busy = true; render();
+  try {
+    const sk = hexToBytes(key);
+    status('Signing the deposit…');
+    const tx = await createTransaction(sk, utxos[from], d.address, amt, FEE_RATE[from], { unified: UNIFIED[from] });
+    status(`Broadcasting ${fmt(amt)} sats to the pool on ${from}, network fee ${fmt(tx.fee)}…`);
+    const r = await fetch(`${API[from]}/tx`, { method: 'POST', body: tx.hex });
+    if (!r.ok) throw new Error(`${from} refused the transaction: ${(await r.text()).slice(0, 160)}`);
+    const txid = (await r.text()).trim();
+    const dTag = `${from}:${txid}:0`;
+    const poolXonly = bytesToHex(decodeAddress(d.address).hash);
+    status(`Deposit <a href="${txUrl(from, txid)}">${txid.slice(0, 12)}…</a> sent. Telling the pool…`);
+    const ev = signEvent(sk, KIND_SWAP, [['d', dTag], ['p', poolXonly], ['chain', from], ['to', to], ['amount', String(amt)]]);
+    const oks = (await publish(ev)).filter(Boolean).length;
+    status(`Deposit <a href="${txUrl(from, txid)}">${txid.slice(0, 12)}…</a> sent, announced to ${oks}/${RELAYS.length} relays. Waiting for the pool to pay…`);
+    const reply = await waitForReply(dTag, poolXonly);
+    if (reply && reply.paid) status(`Paid: <a href="${txUrl(to, reply.paid)}">${reply.paid.slice(0, 12)}…</a> on ${to}, ${fmt(amt - fee)} sats at your address.`);
+    else if (reply && reply.refused) status(`The pool refused this deposit: ${esc(reply.refused)}`, true);
+    else status(`Deposit <a href="${txUrl(from, txid)}">${txid.slice(0, 12)}…</a> sent; no answer yet. The pool pays on its next pass; check your ${to} balance.`);
+    $('amt').value = '';
+    setTimeout(refreshBalances, 4000);
+  } catch (e) { status(esc(e.message), true); }
+  busy = false; render();
+});
+
+// ---- the pool, from the committed snapshot
+function fill() {
+  chains = d.chains; from = chains[0]; to = chains[1]; fee = Number(d.limits.fee); max = Number(d.limits.max);
+  chains.forEach((c) => { const r = d.reserves[c] || {}; avail[c] = (r.confirmed || 0) + (r.pending || 0); });
+  $('sub').textContent = `${chains[0]} ↔ ${chains[1]} · one to one · fee ${fmt(fee)} sats · up to ${fmt(max)} sats a swap, ${d.limits.perDay} a day per key`;
+  $('amt').placeholder = `at least ${fmt(fee + 547)}`; $('minmax').textContent = `min ${fmt(fee + 547)} · cap ${fmt(max)}`; $('feeLine').textContent = `${fmt(fee)} sats`;
+  $('howCmd').textContent = `npx fund-agent@latest swap <sats> --to ${chains[1]} --pool ${d.address}`;
+  $('res').innerHTML = chains.map((c) => { const r = d.reserves[c] || {}; return `<tr><td>${esc(c)}<span class="muted"> ${esc(r.name || NAME[c] || '')}</span></td><td class="num">${r.error ? esc(r.error) : fmt(r.confirmed)}</td><td class="num muted">${r.error ? '' : fmt(r.pending)}</td><td class="mono"><a href="${EXPLORER[c]}/address/${esc(d.address)}">${esc(d.address.slice(0, 14))}…</a></td></tr>`; }).join('');
+  const rows = (d.swaps || []).map((s) => `<tr><td>${esc((s.at || '').slice(0, 16).replace('T', ' '))}</td><td>${esc(s.from)} → ${esc(s.to)}</td><td class="num">${fmt(s.value)}</td><td class="num">${fmt(s.amount)}</td><td class="mono">${esc((s.sender || '').slice(0, 12))}…</td><td class="mono"><a href="${esc(txUrl(s.from, s.txid))}">in</a> · <a href="${esc(txUrl(s.to, s.payoutTxid))}">out</a></td></tr>`).join('');
+  const ref = (d.refused || []).map((r) => `<tr class="muted"><td>${esc((r.at || '').slice(0, 16).replace('T', ' '))}</td><td>${esc(r.chain)}</td><td class="num">${fmt(r.value)}</td><td colspan="3">${esc(r.reason)}</td></tr>`).join('');
+  $('rows').innerHTML = (rows || '<tr><td colspan="6" class="muted">none yet</td></tr>') + ref; $('nSwaps').textContent = `(${(d.swaps || []).length})`;
+  const rp = (d.replayed || []).length; $('replayed').textContent = rp ? `${rp} deposit${rp === 1 ? '' : 's'} seen on both chains, paid once.` : '';
+  $('foot').innerHTML = `${esc(d.reserveTopUps)} reserve top-up${d.reserveTopUps === 1 ? '' : 's'} · as of ${esc((d.at || '').slice(0, 16).replace('T', ' '))} UTC, the last time the ledger was published and marked · <a href="pool.json">pool.json</a> · <a href="ledger.json">ledger.json</a> · <a href="blocktrails.json">trail</a> · <a href="https://github.com/blocktrails/swap-pool-ledger">source</a>`;
+  render();
+}
+document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('.tabs button').forEach((x) => x.classList.toggle('on', x === b));
+  document.querySelectorAll('.panel').forEach((p) => p.classList.toggle('on', p.id === 'tab-' + b.dataset.tab));
+  try { localStorage.setItem('pool-tab', b.dataset.tab); } catch {}
+}));
+try { const t = localStorage.getItem('pool-tab'); if (t) { const b = document.querySelector(`.tabs button[data-tab="${t}"]`); if (b) b.click(); } } catch {}
+fetch('pool.json', { cache: 'no-store' }).then((r) => r.json()).then((j) => { d = j; fill(); onKeyChange(); }).catch((e) => { $('foot').textContent = 'Could not load pool.json: ' + e.message; });
+render();
 </script></body></html>

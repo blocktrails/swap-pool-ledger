@@ -11,9 +11,14 @@ less a 1,000 sat fee, at the sending address on the other.
 
 ## Page
 
-`index.html` is the pool's page: the Swap tab, which turns an amount into the one command to run, and the Pool tab
-with reserves and every swap. It reads `pool.json` from this repo, so it shows the pool as of the last publish, each
-one marked on txbt4. No server behind it.
+`index.html` is the pool's page. Log in at the bottom right with a key you hold (paste a 64-character key, or take a
+guest key the page makes); it spells one address on both chains. The page shows your coins on each chain, and Swap signs
+the deposit in the browser (`lib/bitcoin.js` and `lib/unified.js`, from blaketest), broadcasts it, announces it to the
+pool on Nostr, and shows the pool's answer with the payout. The Pool tab reads `pool.json` from this repo, so it shows
+the pool as of the last publish, each one marked on txbt4. No server behind it.
+
+One limit: the public txbt4 explorer answers browsers with a header they refuse, so the page cannot read or send on
+txbt4 until `?api=<esplora base>` points it at one that can. Swaps from tbtc4 work as is.
 
 ## Files
 
