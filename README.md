@@ -9,6 +9,12 @@ less a 1,000 sat fee, at the sending address on the other.
 - To swap: `npx fund-agent@latest swap <sats> --to <chain> --pool tb1p0xvkh4hf4zksppggeh7kvxndh08k03cadpmjgcuxz0d42vzfx4kscpjz0x`
 - Software: [fund-agent](https://github.com/blocktrails/fund-agent) 0.0.12, `swap-pool`
 
+## Page
+
+`index.html` is the pool's page: the Swap tab, which turns an amount into the one command to run, and the Pool tab
+with reserves and every swap. It reads `pool.json` from this repo, so it shows the pool as of the last publish, each
+one marked on txbt4. No server behind it.
+
 ## Files
 
 - `ledger.json`: every swap paid (`paid`: deposit, sender, payout txid), every deposit refused and why, the pool's
