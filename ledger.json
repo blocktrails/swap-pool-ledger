@@ -1,0 +1,96 @@
+{
+ "own": {
+  "tbtc4:2f5d4fc1e813394b2053612e169bb4ea4b4bba4badb05fe7179745fe738f8354": true,
+  "tbtc4:df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484": true,
+  "tbtc4:e3946d1120ccef373bff0f6e205149a4fc10b8be04d3b1d974fad30098039592": true,
+  "txbt4:2f5d4fc1e813394b2053612e169bb4ea4b4bba4badb05fe7179745fe738f8354": true,
+  "txbt4:45b02b7d97420f1520f07acace02dd8f898341f444087e6547f5dbc204067fb1": true,
+  "txbt4:835f80a3551c4bdf6c9184d257b7764b335051eb8e9ae0f1211eb567b393fc44": true,
+  "txbt4:df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484": true
+ },
+ "paid": {
+  "tbtc4:05c278c9192acf9fa9f7443afa4402ee08ae9a638696cfca24efdcbb44ccffde:0": {
+   "amount": 3000,
+   "at": "2026-10-19T10:19:58.096Z",
+   "from": "tbtc4",
+   "key": "tbtc4:05c278c9192acf9fa9f7443afa4402ee08ae9a638696cfca24efdcbb44ccffde:0",
+   "payoutTxid": "45b02b7d97420f1520f07acace02dd8f898341f444087e6547f5dbc204067fb1",
+   "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+   "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+   "to": "txbt4",
+   "txid": "05c278c9192acf9fa9f7443afa4402ee08ae9a638696cfca24efdcbb44ccffde",
+   "value": 4000,
+   "vout": 0
+  },
+  "tbtc4:5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e:0": {
+   "amount": 1000,
+   "at": "2026-10-19T10:08:48.929Z",
+   "from": "tbtc4",
+   "key": "tbtc4:5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e:0",
+   "payoutTxid": "df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484",
+   "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+   "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+   "to": "txbt4",
+   "txid": "5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e",
+   "value": 2000,
+   "vout": 0
+  },
+  "txbt4:22650aac9acbc9a6c58d75d1a6b596ee6ba3465c34eb66af5633f3f97ec8711d:0": {
+   "amount": 7000,
+   "at": "2026-10-19T10:13:50.155Z",
+   "from": "txbt4",
+   "key": "txbt4:22650aac9acbc9a6c58d75d1a6b596ee6ba3465c34eb66af5633f3f97ec8711d:0",
+   "payoutTxid": "e3946d1120ccef373bff0f6e205149a4fc10b8be04d3b1d974fad30098039592",
+   "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+   "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+   "to": "tbtc4",
+   "txid": "22650aac9acbc9a6c58d75d1a6b596ee6ba3465c34eb66af5633f3f97ec8711d",
+   "value": 8000,
+   "vout": 0
+  },
+  "txbt4:5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e:0": {
+   "amount": 1000,
+   "at": "2026-10-19T10:08:48.802Z",
+   "from": "txbt4",
+   "key": "txbt4:5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e:0",
+   "payoutTxid": "df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484",
+   "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+   "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+   "to": "tbtc4",
+   "txid": "5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e",
+   "value": 2000,
+   "vout": 0
+  },
+  "txbt4:f2463cd8d5b08a8c82e0c7a0e76fa9b67a78b341c5c61356eabc46e468ea9e20:0": {
+   "amount": 4000,
+   "at": "2026-10-19T10:08:07.964Z",
+   "from": "txbt4",
+   "key": "txbt4:f2463cd8d5b08a8c82e0c7a0e76fa9b67a78b341c5c61356eabc46e468ea9e20:0",
+   "payoutTxid": "2f5d4fc1e813394b2053612e169bb4ea4b4bba4badb05fe7179745fe738f8354",
+   "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+   "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+   "to": "tbtc4",
+   "txid": "f2463cd8d5b08a8c82e0c7a0e76fa9b67a78b341c5c61356eabc46e468ea9e20",
+   "value": 5000,
+   "vout": 0
+  }
+ },
+ "paidFrom": {
+  "tbtc4:2f5d4fc1e813394b2053612e169bb4ea4b4bba4badb05fe7179745fe738f8354:1": "df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484",
+  "tbtc4:8ece740e617f11adf7ee73062c608f9848f9848ea7efe2136a9cc8871e552564:0": "2f5d4fc1e813394b2053612e169bb4ea4b4bba4badb05fe7179745fe738f8354",
+  "tbtc4:df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484:1": "e3946d1120ccef373bff0f6e205149a4fc10b8be04d3b1d974fad30098039592",
+  "txbt4:2f5d4fc1e813394b2053612e169bb4ea4b4bba4badb05fe7179745fe738f8354:1": "df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484",
+  "txbt4:835f80a3551c4bdf6c9184d257b7764b335051eb8e9ae0f1211eb567b393fc44:0": "45b02b7d97420f1520f07acace02dd8f898341f444087e6547f5dbc204067fb1"
+ },
+ "refused": {},
+ "reserve": {
+  "tbtc4:8ece740e617f11adf7ee73062c608f9848f9848ea7efe2136a9cc8871e552564:0": {
+   "at": "2026-10-19T10:08:07.995Z",
+   "value": 1000000000
+  },
+  "txbt4:8ece740e617f11adf7ee73062c608f9848f9848ea7efe2136a9cc8871e552564:0": {
+   "at": "2026-10-19T10:08:07.819Z",
+   "value": 1000000000
+  }
+ }
+}

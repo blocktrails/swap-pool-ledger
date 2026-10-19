@@ -1,0 +1,97 @@
+{
+  "address": "tb1p0xvkh4hf4zksppggeh7kvxndh08k03cadpmjgcuxz0d42vzfx4kscpjz0x",
+  "chains": [
+    "txbt4",
+    "tbtc4"
+  ],
+  "limits": {
+    "fee": 1000,
+    "max": 1000000,
+    "perDay": 10
+  },
+  "reserves": {
+    "txbt4": {
+      "confirmed": 1000002800,
+      "pending": 0,
+      "coins": 2,
+      "name": "Bitcoin BLAKE2b testnet4"
+    },
+    "tbtc4": {
+      "confirmed": 0,
+      "pending": 999991000,
+      "coins": 3,
+      "name": "Bitcoin testnet4"
+    }
+  },
+  "swaps": [
+    {
+      "key": "tbtc4:05c278c9192acf9fa9f7443afa4402ee08ae9a638696cfca24efdcbb44ccffde:0",
+      "from": "tbtc4",
+      "to": "txbt4",
+      "txid": "05c278c9192acf9fa9f7443afa4402ee08ae9a638696cfca24efdcbb44ccffde",
+      "vout": 0,
+      "value": 4000,
+      "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+      "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+      "amount": 3000,
+      "payoutTxid": "45b02b7d97420f1520f07acace02dd8f898341f444087e6547f5dbc204067fb1",
+      "at": "2026-10-19T10:19:58.096Z"
+    },
+    {
+      "key": "txbt4:22650aac9acbc9a6c58d75d1a6b596ee6ba3465c34eb66af5633f3f97ec8711d:0",
+      "from": "txbt4",
+      "to": "tbtc4",
+      "txid": "22650aac9acbc9a6c58d75d1a6b596ee6ba3465c34eb66af5633f3f97ec8711d",
+      "vout": 0,
+      "value": 8000,
+      "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+      "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+      "amount": 7000,
+      "payoutTxid": "e3946d1120ccef373bff0f6e205149a4fc10b8be04d3b1d974fad30098039592",
+      "at": "2026-10-19T10:13:50.155Z"
+    },
+    {
+      "key": "tbtc4:5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e:0",
+      "from": "tbtc4",
+      "to": "txbt4",
+      "txid": "5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e",
+      "vout": 0,
+      "value": 2000,
+      "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+      "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+      "amount": 1000,
+      "payoutTxid": "df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484",
+      "at": "2026-10-19T10:08:48.929Z"
+    },
+    {
+      "key": "txbt4:5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e:0",
+      "from": "txbt4",
+      "to": "tbtc4",
+      "txid": "5aa27d49b21741ffa283ea364e7c8bfeaf6793266ae8638fc60275f9c59b241e",
+      "vout": 0,
+      "value": 2000,
+      "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+      "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+      "amount": 1000,
+      "payoutTxid": "df1cf4bb18c8f71bb4d517a0209f2b5b84393221d581b4e9b10fee8326d4a484",
+      "at": "2026-10-19T10:08:48.802Z"
+    },
+    {
+      "key": "txbt4:f2463cd8d5b08a8c82e0c7a0e76fa9b67a78b341c5c61356eabc46e468ea9e20:0",
+      "from": "txbt4",
+      "to": "tbtc4",
+      "txid": "f2463cd8d5b08a8c82e0c7a0e76fa9b67a78b341c5c61356eabc46e468ea9e20",
+      "vout": 0,
+      "value": 5000,
+      "sender": "tb1pl6mrm6rcuhrtktyhqp9x0spjg7ra0qm9qv8ccwpl7fzxsyhu5k0q890u98",
+      "pubkey": "feb63de878e5c6bb2c97004a67c0324787d78365030f8c383ff2446812fca59e",
+      "amount": 4000,
+      "payoutTxid": "2f5d4fc1e813394b2053612e169bb4ea4b4bba4badb05fe7179745fe738f8354",
+      "at": "2026-10-19T10:08:07.964Z"
+    }
+  ],
+  "refused": [],
+  "replayed": [],
+  "reserveTopUps": 2,
+  "at": "2026-10-19T13:36:30.036Z"
+}
