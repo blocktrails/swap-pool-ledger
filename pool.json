@@ -18,12 +18,25 @@
     },
     "tbtc4": {
       "confirmed": 0,
-      "pending": 999979000,
-      "coins": 5,
+      "pending": 999982000,
+      "coins": 6,
       "name": "Bitcoin testnet4"
     }
   },
   "swaps": [
+    {
+      "key": "tbtc4:8011818cef4e51e2472ddbc28a08e3f076673c67b2ed48ae5a8304ddb9dc04a2:0",
+      "from": "tbtc4",
+      "to": "txbt4",
+      "txid": "8011818cef4e51e2472ddbc28a08e3f076673c67b2ed48ae5a8304ddb9dc04a2",
+      "vout": 0,
+      "value": 3000,
+      "sender": "tb1ppldlvszujpu4xrfhjupcjz8x2waqwfpkugxd2g8kmf5dh8z9x7xslrq08r",
+      "pubkey": "0fdbf6405c9079530d3797038908e653ba072436e20cd520f6da68db9c45378d",
+      "amount": 2000,
+      "payoutTxid": "53e5b072cd226075cd15ef03d681cbc1c9b2cdc0834e0240f183d3b5ed8be4d1",
+      "at": "2026-10-19T16:38:35.756Z"
+    },
     {
       "key": "txbt4:f1d8be7288228ccc87b5e91019bc47318ab0ec098d96f1bccf7e6c851f6cf85c:0",
       "from": "txbt4",
@@ -187,5 +200,5 @@
     "txbt4:1d43c9d1f7bc8631efc781975fd69359e87c99813e9a27be6b32b8104dceba74:0"
   ],
   "reserveTopUps": 2,
-  "at": "2026-10-19T16:38:13.172Z"
+  "at": "2026-10-19T16:38:35.992Z"
 }
